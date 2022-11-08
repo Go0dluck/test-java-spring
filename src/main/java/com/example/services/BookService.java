@@ -1,23 +1,23 @@
-package com.example.dao;
+package com.example.services;
 
 import com.example.models.Book;
+import com.example.repositories.BookRepository;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.stereotype.Repository;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.*;
 import java.util.function.BiFunction;
 
-@Repository
+@Service
 @Transactional(readOnly = true)
-public class BookDAO {
+public class BookService implements BookRepository{
     private final JdbcTemplate jdbcTemplate;
 
-    public BookDAO(JdbcTemplate jdbcTemplate) {
+    public BookService(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
     }
-
     public List<Book> findAllByOrderByTitleDesc(){
         return jdbcTemplate.query("SELECT * FROM Book ORDER BY title DESC", new BeanPropertyRowMapper<>(Book.class));
     }
